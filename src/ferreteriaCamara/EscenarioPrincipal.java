@@ -31,6 +31,9 @@ public class EscenarioPrincipal{
    */
   public Scene EscenaPrincipal(Stage primaryStage) {
     
+    /**
+     * --------------------------OPCION 1 INVENTARIO--------------------------------------------
+     */
     Button bInventario = new Button("Inventario");
     bInventario.setOnAction(new EventHandler(){
       @Override
@@ -46,7 +49,9 @@ public class EscenarioPrincipal{
       }
       
     });
-  
+  /**
+   * -------------------------OPCION 2 VENTAS-------------------------------------------------
+   */
     Button bVentas = new Button("Ventas");
     
     bVentas.setOnAction(new EventHandler(){
@@ -61,6 +66,15 @@ public class EscenarioPrincipal{
       }
       
     });
+    
+    /** proximamente.....
+     * -----------------------------OPCION 3 AGREGAR USUARIO-----------------------------------
+     */
+    
+    /**
+     * proximamente......
+     * -----------------------------OPCION 4 MODIFICAR USUARIO --------------------------------
+     */
     
     GridPane gridPane = new GridPane();
     

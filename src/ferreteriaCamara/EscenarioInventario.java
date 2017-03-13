@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -56,6 +57,7 @@ public class EscenarioInventario {
     
     GridPane gridPane = new GridPane();
     
+    gridPane.setAlignment(Pos.CENTER);
     gridPane.setPadding(new Insets(10, 10, 10, 10)); 
     gridPane.setVgap(5);
     gridPane.setHgap(5);
@@ -70,7 +72,7 @@ public class EscenarioInventario {
     gridPane.add(rbOpcion7, 0, 7);
     gridPane.add(bAceptar, 0, 8);
   
-    Scene escenaInventario = new Scene(gridPane);
+    Scene escenaInventario = new Scene(gridPane, 300,250);
     
     /**
      * Evento que sucede al presionar el boton Aceptar
@@ -115,6 +117,9 @@ public class EscenarioInventario {
           primaryStage.setScene(escena);
           primaryStage.show();
           Archivo.imprimirInventario();
+        }
+        if (textoRadioButton.equals("Salir")) {
+          primaryStage.close();
         }
       }
       
