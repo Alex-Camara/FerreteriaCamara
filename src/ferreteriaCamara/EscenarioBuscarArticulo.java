@@ -5,6 +5,7 @@
  */
 package ferreteriaCamara;
 
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
  */
 public class EscenarioBuscarArticulo{
   
-  public Scene EscenaBuscarArticulo(Stage primaryStage){
+  public GridPane EscenaBuscarArticulo(Stage primaryStage){
     
     Label lInstruccionClave = new Label("Buscar por clave");
     TextField tClave = new TextField();
@@ -34,7 +35,8 @@ public class EscenarioBuscarArticulo{
     TextField tNombre = new TextField();
         
     Button bBuscar = new Button("Buscar");
-    Button bRegresar = new Button("Regresar");
+    Button bSalir = new Button("Salir");
+    
     
     GridPane gridPane = new GridPane();
     
@@ -48,9 +50,9 @@ public class EscenarioBuscarArticulo{
     gridPane.add(tNombre, 1, 1);
     
     gridPane.add(bBuscar, 0, 3);
-    gridPane.add(bRegresar, 1, 3);
+    gridPane.add(bSalir, 1, 3);
     
-    Scene escenaBuscarArticulo = new Scene(gridPane);
+   // Scene escenaBuscarArticulo = new Scene(gridPane);
     
     bBuscar.setOnAction(new EventHandler(){
       @Override
@@ -146,17 +148,25 @@ public class EscenarioBuscarArticulo{
       
     });
     
-    bRegresar.setOnAction(new EventHandler(){
+    bSalir.setOnAction(new EventHandler(){
       @Override
       public void handle(Event event) {
-        EscenarioInventario escenaInv = new EscenarioInventario();
-        Scene escena = escenaInv.EscenaInventario(primaryStage);
-        primaryStage.setScene(escena);
-        primaryStage.show();
+          Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿seguro que desea salir?");
+        
+        Optional<ButtonType> result = alerta.showAndWait();
+        
+        if (result.get() == ButtonType.OK) {
+          primaryStage.close();
+        } else {
+          alerta.close();
+        }
       }
       
     });
     
-    return escenaBuscarArticulo;
+    return gridPane;
   }
 }

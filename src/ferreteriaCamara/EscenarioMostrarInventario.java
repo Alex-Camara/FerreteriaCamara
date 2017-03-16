@@ -2,6 +2,7 @@
 package ferreteriaCamara;
 
 import java.util.List;
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
@@ -11,7 +12,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -23,7 +26,7 @@ import javafx.stage.Stage;
  */
 public class EscenarioMostrarInventario {
 
-  public Scene EscenaMostrarInventario(Stage primaryStage) {
+  public GridPane EscenaMostrarInventario(Stage primaryStage) {
     
     List inventario;
     inventario = Archivo.recuperarDatos();
@@ -34,10 +37,10 @@ public class EscenarioMostrarInventario {
     );
     list.setItems(items);
     
-    Button bRegresar = new Button("Regresar");
     Button bAgregar = new Button("Agregar");
     Button bEditar = new Button("Editar");
     Button bEliminar = new Button("Eliminar");
+    Button bSalir = new Button("Salir");
     
     GridPane gridPane = new GridPane();
     
@@ -46,18 +49,26 @@ public class EscenarioMostrarInventario {
     gridPane.setHgap(5);
     
     gridPane.add(list, 0, 0);
-    gridPane.add(bAgregar, 1, 0);
-    gridPane.add(bRegresar, 1, 1);
-    gridPane.add(bEditar, 1, 2);
-    gridPane.add(bEliminar, 1, 3);
+    gridPane.add(bAgregar, 1, 1);
+    gridPane.add(bSalir, 2, 1);
+    gridPane.add(bEditar, 3, 1);
+    gridPane.add(bEliminar, 4, 1);
     
-    bRegresar.setOnAction(new EventHandler(){
+    bSalir.setOnAction(new EventHandler(){
       @Override
       public void handle(Event event) {
-        EscenarioInventario escenaInv = new EscenarioInventario();
-        Scene escena = escenaInv.EscenaInventario(primaryStage);
-        primaryStage.setScene(escena);
-        primaryStage.show();
+          Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿seguro que desea salir?");
+        
+        Optional<ButtonType> result = alerta.showAndWait();
+        
+        if (result.get() == ButtonType.OK) {
+          primaryStage.close();
+        } else {
+          alerta.close();
+        }
       }
       
     });
@@ -68,7 +79,9 @@ public class EscenarioMostrarInventario {
           
           EscenarioAgregarArticulo escenarioAgregar = new EscenarioAgregarArticulo();
           //se manda a llamar a la escena de EscenaAgregarArticulo del EscenarioAgregarArticulo
-          Scene escena = escenarioAgregar.EscenaAgregarArticulo(primaryStage);
+          GridPane gpAgregarArticulo = escenarioAgregar.EscenaAgregarArticulo2(primaryStage);
+          Scene escena = new Scene(gpAgregarArticulo);
+
           primaryStage.setScene(escena);
           primaryStage.show();
       }
@@ -86,9 +99,11 @@ public class EscenarioMostrarInventario {
           clave = auxiliar.getClave();
           System.out.println(clave);
           
-          EscenarioEditarArticulo escenarioEditar = new EscenarioEditarArticulo();
+          EscenarioEditarArticulo escenarioEditarArt = new EscenarioEditarArticulo();
           //se manda a llamar a la escena de EscenaDatosPresentes del Escenario Editar Datos
-          Scene escena = escenarioEditar.EscenaDatosPresentes(primaryStage, auxiliar, clave);
+          GridPane gpEditarArticulo = escenarioEditarArt.EscenaDatosPresentes(primaryStage, auxiliar, clave);
+          Scene escena = new Scene(gpEditarArticulo);
+
           primaryStage.setScene(escena);
           primaryStage.show();
         }
@@ -110,15 +125,12 @@ public class EscenarioMostrarInventario {
           EscenarioEliminarArticulo escenarioEliminar = new EscenarioEliminarArticulo();
           //se manda a llamar a la escena de EscenaDatosPresentes del Escenario Editar Datos
           escenarioEliminar.EscenaEliminarArticulo(clave);
-          primaryStage.setScene(EscenaMostrarInventario(primaryStage));
         }
       }
       
     });
     
-    Scene escenaMostrarInventario = new Scene(gridPane);
-   
-    return escenaMostrarInventario;
+    return gridPane;
   }
   
 }

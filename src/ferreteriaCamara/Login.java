@@ -61,9 +61,9 @@ public class Login extends Application {
           if (tUsuario.getText().equals(admin.getUsuario()) && 
               tPassword.getText().equals(admin.getContrasenia())){
             //abrir una nueva ventana
-            EscenarioPrincipal vp = new EscenarioPrincipal();
+            EscenarioAdministrador escenarioAdmin = new EscenarioAdministrador();
             Scene escena;
-            escena = vp.EscenaPrincipal(primaryStage);
+            escena = escenarioAdmin.EscenaAdministrador(primaryStage);
             primaryStage.setScene(escena);
             primaryStage.show();
           }
@@ -71,11 +71,13 @@ public class Login extends Application {
           if (tUsuario.getText().equals(registrador1.getUsuario()) && 
               tPassword.getText().equals(registrador1.getContrasenia())) {
             //se abre la ventana de inventario, pues solo tiene acceso a esta.
-            EscenarioInventario escenaInv = new EscenarioInventario();
-            Scene escena = escenaInv.EscenaInventario(primaryStage);
+              EscenarioVentas escenaVentas = new EscenarioVentas();
+            Scene escena = escenaVentas.EscenaVentas(primaryStage);
             primaryStage.setScene(escena);
             primaryStage.show();
-          } else {
+          }
+          if (tUsuario.getText().equals(registrador1.getUsuario()) && 
+              tPassword.getText().equals(registrador1.getContrasenia()) == false) {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setHeaderText(null);
             alerta.setContentText("Usuario Incorrecto");

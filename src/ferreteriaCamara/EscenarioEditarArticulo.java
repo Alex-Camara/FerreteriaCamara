@@ -1,5 +1,6 @@
 package ferreteriaCamara;
 
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -8,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -26,7 +28,7 @@ public class EscenarioEditarArticulo {
    * @param primaryStage
    * @return 
    */
-  public Scene EscenaEditarArticulo(Stage primaryStage){
+  public GridPane EscenaEditarArticulo(Stage primaryStage){
     Label lOpcion1 = new Label("Introduce la clave del articulo");
     
     Label lClave = new Label("Clave: ");
@@ -44,7 +46,7 @@ public class EscenarioEditarArticulo {
     gridPane.add(tClave, 0, 1);
     gridPane.add(bBuscar, 0, 2);
     
-    Scene escenaEditarArticulo = new Scene(gridPane);
+    //Scene escenaEditarArticulo = new Scene(gridPane);
     
     bBuscar.setOnAction(new EventHandler(){
       @Override
@@ -58,8 +60,11 @@ public class EscenarioEditarArticulo {
           auxiliar = Archivo.buscarPorClave(clave); 
             
           if (auxiliar != null) {
-            Scene escenaEditarArt = EscenaDatosPresentes(primaryStage,auxiliar,clave);
-            primaryStage.setScene(escenaEditarArt);
+            EscenarioEditarArticulo escenarioEditarArt = new EscenarioEditarArticulo();
+            GridPane gpEditarrArticulo = escenarioEditarArt.EscenaDatosPresentes(primaryStage, auxiliar, clave);
+            Scene escena = new Scene(gpEditarrArticulo);
+
+            primaryStage.setScene(escena);
             primaryStage.show();
           }
         }
@@ -67,7 +72,7 @@ public class EscenarioEditarArticulo {
       
     });
  
-    return escenaEditarArticulo;
+    return gridPane;
   } 
   
   /**-----------------------------------------------------------------------------------------
@@ -78,14 +83,14 @@ public class EscenarioEditarArticulo {
    * @param tClave
    * @return 
    */
-  public Scene EscenaDatosPresentes(Stage primaryStage, Articulo auxiliar,int clave){
+  public GridPane EscenaDatosPresentes(Stage primaryStage, Articulo auxiliar,int clave){
 
         String nombre;
         String descripcion;
         float precioCompra;
         String tipoUnidad;
         int cantidad;
-        Scene EscenaDatosPresentes = null;
+        //Scene EscenaDatosPresentes = null;
         
           auxiliar = Archivo.buscarPorClave(clave); 
               nombre = auxiliar.getNombre();
@@ -113,7 +118,8 @@ public class EscenarioEditarArticulo {
               TextField tCantidadObtenida = new TextField(String.valueOf(cantidad));    
     
               Button bGuardar = new Button("Guardar");
-              Button bRegresar = new Button("Regresar");
+              Button bSalir = new Button("Salir");
+    
     
               GridPane gridPane = new GridPane();
               
@@ -134,7 +140,7 @@ public class EscenarioEditarArticulo {
               gridPane.add(lCantidad, 0, 6);
               gridPane.add(tCantidadObtenida, 1, 6);
               gridPane.add(bGuardar, 0, 7);
-              gridPane.add(bRegresar, 1, 7);
+              gridPane.add(bSalir, 1, 7);
               
               bGuardar.setOnAction(new EventHandler(){
                 @Override
@@ -161,18 +167,26 @@ public class EscenarioEditarArticulo {
               
             });
               
-                  bRegresar.setOnAction(new EventHandler(){
-                  @Override
-                public void handle(Event event) {
-                  EscenarioInventario escenaInv = new EscenarioInventario();
-                  Scene escena = escenaInv.EscenaInventario(primaryStage);
-                  primaryStage.setScene(escena);
-                  primaryStage.show();
-                }
+    bSalir.setOnAction(new EventHandler(){
+      @Override
+      public void handle(Event event) {
+          Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿seguro que desea salir?");
+        
+        Optional<ButtonType> result = alerta.showAndWait();
+        
+        if (result.get() == ButtonType.OK) {
+          primaryStage.close();
+        } else {
+          alerta.close();
+        }
+      }
       
-            });              
+    });          
             
-            return EscenaDatosPresentes = new Scene(gridPane);
+            return gridPane;
   }
 }
 

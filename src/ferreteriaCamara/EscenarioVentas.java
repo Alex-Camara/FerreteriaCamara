@@ -5,6 +5,7 @@
  */
 package ferreteriaCamara;
 
+import java.util.List;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -26,37 +29,51 @@ public class EscenarioVentas{
   
   public Scene EscenaVentas(Stage primaryStage) {
   
-    Label lPregunta1 = new Label("¿Que desea realizar?");
-  
-    RadioButton rbOpcion1 = new RadioButton("Registrar Venta");
-    RadioButton rbOpcion2 = new RadioButton("Mostrar Registro de Ventas");
-    RadioButton rbOpcion3 = new RadioButton("Buscar Registro por fecha");
-    RadioButton rbOpcion6 = new RadioButton("Salir");
+    TabPane tabPane =  new TabPane();
     
-    Button bAceptar = new Button("Aceptar");
-  
-    ToggleGroup radioGroup = new ToggleGroup();
+    //Agregar Venta
+    Tab tabAgregar = new Tab();
+    tabAgregar.setText("Registrar Venta");
+    tabAgregar.setClosable(false);
     
-    rbOpcion1.setToggleGroup(radioGroup);
-    rbOpcion2.setToggleGroup(radioGroup);
-    rbOpcion3.setToggleGroup(radioGroup);
-    rbOpcion6.setToggleGroup(radioGroup);
+        //agregamo el gridpane del escenario AgregarArticulo
+    EscenarioAgregarVenta escenaAgregarVenta = new EscenarioAgregarVenta();
+    GridPane gpAgregarVenta = escenaAgregarVenta.EscenaAgregarVenta(primaryStage);
     
-    GridPane gridPane = new GridPane();
+    tabAgregar.setContent(gpAgregarVenta);
     
-    gridPane.setPadding(new Insets(10, 10, 10, 10)); 
-    gridPane.setVgap(5);
-    gridPane.setHgap(5);
+    //Mostrar registros
+    Tab tabMostrarReg = new Tab();
+    tabMostrarReg.setText("Mostrar Ventas");
+    tabMostrarReg.setClosable(false);
     
-    gridPane.add(lPregunta1, 0, 0);
-    gridPane.add(rbOpcion1, 0, 1);
-    gridPane.add(rbOpcion2, 0, 2);
-    gridPane.add(rbOpcion3, 0, 3);
-    gridPane.add(rbOpcion6, 0, 6);
-    gridPane.add(bAceptar, 0, 7);
-  
-    Scene escenaVentas = new Scene(gridPane);
+        //agregamo el gridpane del escenario AgregarArticulo
+    EscenarioMostrarVenta escenaMostrarVenta = new EscenarioMostrarVenta();
+    GridPane gpMostrarVenta = escenaMostrarVenta.EscenaMostrarVenta(primaryStage);
     
-    return escenaVentas;
-  }
+    tabMostrarReg.setContent(gpMostrarVenta);
+
+    /*
+    Tab tabBuscar = new Tab();
+    tabBuscar.setText("Buscar Registro por fecha");
+    tabBuscar.setClosable(false);
+    
+        //agregamo el gridpane del escenario EditarArticulo
+    //EscenarioBuscarArticulo escenaBuscarArt = new EscenarioBuscarArticulo();
+    //GridPane gpBuscarArt = escenaBuscarArt.EscenaBuscarArticulo(primaryStage);
+    
+    //tabBuscar.setContent(gpBuscarArt);
+*/
+    
+    //agregamos los tabs al tabPane
+    //tabPane.getTabs().add(tabBuscar);
+    tabPane.getTabs().add(tabAgregar);
+    tabPane.getTabs().add(tabMostrarReg);
+    
+     //Scene escenaInventario = new Scene(tabPane, 300,250);
+    
+    Scene escenaInventario = new Scene(tabPane, 1000,500);
+    return escenaInventario;
+    
+  } 
 }

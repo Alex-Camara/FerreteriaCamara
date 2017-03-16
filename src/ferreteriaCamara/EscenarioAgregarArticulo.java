@@ -1,5 +1,6 @@
 package ferreteriaCamara;
 
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -26,7 +28,7 @@ public class EscenarioAgregarArticulo{
    * regresa un tipo Scene para reemplazar en el escenario a la escena anterior
    * @return 
    */
-  public Scene EscenaAgregarArticulo(Stage primaryStage){    
+    public GridPane EscenaAgregarArticulo2(Stage primaryStage){    
     Label lOpcion1 = new Label("Introduce los siguientes datos:");
     
     Label lClave = new Label("Clave: ");
@@ -48,7 +50,8 @@ public class EscenarioAgregarArticulo{
     TextField tCantidad = new TextField();    
     
     Button bGuardar = new Button("Guardar");
-    Button bRegresar = new Button("Regresar");
+     Button bRegresar = new Button("Regresar");
+    Button bSalir = new Button("Salir");
     
     GridPane gridPane = new GridPane();
     
@@ -71,7 +74,8 @@ public class EscenarioAgregarArticulo{
     gridPane.add(lCantidad, 0, 6);
     gridPane.add(tCantidad, 1, 6);
     gridPane.add(bGuardar, 0, 7);
-    gridPane.add(bRegresar, 1, 7);
+    gridPane.add(bRegresar, 2, 7);
+    gridPane.add(bSalir, 1, 7);
     
     Archivo ar = new Archivo();
    
@@ -100,17 +104,36 @@ public class EscenarioAgregarArticulo{
         //agregar ventana emergente---------------------------------------
         Alert alerta = new Alert(AlertType.INFORMATION);
         alerta.setTitle("Confirmación");
-        alerta.setTitle(null);
+        alerta.setHeaderText(null);
         alerta.setContentText("Los datos han sido guardados tio!");
         
         alerta.show();
         //fin ventana emergente--------------------------------------------        
         Archivo.imprimirInventario();
         
-        EscenarioAgregarArticulo escenaAgregarArt;
-        Scene escena = EscenaAgregarArticulo(primaryStage);
-        primaryStage.setScene(escena);
-        primaryStage.show();
+        //EscenarioAgregarArticulo escenaAgregarArt;
+        //Scene escena = EscenaAgregarArticulo(primaryStage);
+        //primaryStage.setScene(escena);
+        //primaryStage.show();
+      }
+      
+    });
+    
+    bSalir.setOnAction(new EventHandler(){
+      @Override
+      public void handle(Event event) {
+          Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿seguro que desea salir?");
+        
+        Optional<ButtonType> result = alerta.showAndWait();
+        
+        if (result.get() == ButtonType.OK) {
+          primaryStage.close();
+        } else {
+          alerta.close();
+        }
       }
       
     });
@@ -118,17 +141,16 @@ public class EscenarioAgregarArticulo{
     bRegresar.setOnAction(new EventHandler(){
       @Override
       public void handle(Event event) {
-        EscenarioInventario escenaInv = new EscenarioInventario();
-        Scene escena = escenaInv.EscenaInventario(primaryStage);
+        EscenarioAdministrador ea = new EscenarioAdministrador();
+        Scene escena = ea.EscenaAdministrador(primaryStage);
         primaryStage.setScene(escena);
+        
         primaryStage.show();
       }
       
     });
     
-    Scene escenaAgregarArticulo = new Scene(gridPane);
-    
-    return escenaAgregarArticulo;
+    return gridPane;
   }
   
 }

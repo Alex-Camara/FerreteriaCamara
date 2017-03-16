@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  */
 public class EscenarioEliminarArticulo {
   
-  public Scene EscenaEliminarArticulo(Stage primaryStage){
+  public GridPane EscenaEliminarArticulo(Stage primaryStage){
     
     Label lInstruccion = new Label("Introduce la clave del articulo a eliminar: ");
     TextField tClave = new TextField();
@@ -112,17 +112,15 @@ public class EscenarioEliminarArticulo {
     bRegresar.setOnAction(new EventHandler(){
       @Override
       public void handle(Event event) {
-        EscenarioInventario escenaInv = new EscenarioInventario();
-        Scene escena = escenaInv.EscenaInventario(primaryStage);
+        EscenarioAdministrador escenaAdmin = new EscenarioAdministrador();
+        Scene escena = escenaAdmin.EscenaAdministrador(primaryStage);
         primaryStage.setScene(escena);
         primaryStage.show();
       }
       
     });
     
-    Scene escenaEliminarArticulo = new Scene(gridPane);
-    
-    return escenaEliminarArticulo;
+    return gridPane;
   }
   
     public Alert EscenaEliminarArticulo(int clave){
